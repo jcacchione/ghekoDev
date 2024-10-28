@@ -268,12 +268,12 @@ const AdobeStock = () => {
                 ? parseInt(selectedImage.nb_downloads, 10).toLocaleString()
                 : "0"}
             </ListGroup.Item>
-            <ListGroup.Item>
+            {/* <ListGroup.Item>
               <strong>Views:</strong>{" "}
               {selectedImage.nb_views
                 ? parseInt(selectedImage.nb_views, 10).toLocaleString()
                 : "0"}
-            </ListGroup.Item>
+            </ListGroup.Item> */}
             <ListGroup.Item>
               <strong>Trend Score:</strong>{" "}
               {typeof selectedImage.trendScore === "number" &&
@@ -338,13 +338,12 @@ const AdobeStock = () => {
 
   return (
     <Container className="mt-4">
-      <Row className="mb-4 align-items-center">
-        <Col md={4}>
+      <Row className="mb-4">
+        <Col md={6}>
           <h1>Featured Trending Images</h1>
         </Col>
-      </Row>
-      <Row className="mb-4">
-        <Col md={4} className={"me-auto"}>
+        <Col md={3}></Col>
+        <Col md={3}>
           <Form.Control
             id="searchImages"
             type="text"
@@ -353,8 +352,12 @@ const AdobeStock = () => {
             onChange={handleSearch}
           />
         </Col>
-        <Col md={4}>
-          <ButtonGroup className="w-100">
+        <Col md={4}></Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <ButtonGroup>
             {contentTypes.map((type) => (
               <ToggleButton
                 key={type.value}
@@ -373,7 +376,65 @@ const AdobeStock = () => {
             ))}
           </ButtonGroup>
         </Col>
+        <Col>
+          <div className="d-flex justify-content-end">
+            <Pagination>
+              <Pagination.First
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+              />
+              <Pagination.Prev
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+
+              {[...Array(totalPages)].map((_, index) => {
+                const pageNumber = index + 1;
+                if (
+                  pageNumber === 1 ||
+                  pageNumber === totalPages ||
+                  (pageNumber >= currentPage - 2 &&
+                    pageNumber <= currentPage + 2)
+                ) {
+                  return (
+                    <Pagination.Item
+                      key={pageNumber}
+                      active={pageNumber === currentPage}
+                      onClick={() => handlePageChange(pageNumber)}
+                    >
+                      {pageNumber}
+                    </Pagination.Item>
+                  );
+                }
+                if (
+                  pageNumber === currentPage - 3 ||
+                  pageNumber === currentPage + 3
+                ) {
+                  return <Pagination.Ellipsis key={pageNumber} />;
+                }
+                return null;
+              })}
+
+              <Pagination.Next
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              />
+              <Pagination.Last
+                onClick={() => handlePageChange(totalPages)}
+                disabled={currentPage === totalPages}
+              />
+            </Pagination>
+          </div>
+        </Col>
       </Row>
+
+      {/* <div className="text-center mt-2">
+        <small className="text-muted">
+          Showing {indexOfFirstImage + 1} to{" "}
+          {Math.min(indexOfLastImage, sortedImages.length)} of{" "}
+          {sortedImages.length} images
+        </small>
+      </div> */}
 
       <Table striped bordered hover responsive>
         <thead>
@@ -449,68 +510,12 @@ const AdobeStock = () => {
         </tbody>
       </Table>
 
-      <Modal show={showModal} onHide={handleCloseModal} size="lg" centered>
+      <Modal show={showModal} onHide={handleCloseModal} size="xl" centered>
         <Modal.Header closeButton>
           <Modal.Title>{selectedImage?.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{renderImageDetails()}</Modal.Body>
       </Modal>
-
-      <div className="d-flex justify-content-center mt-4">
-        <Pagination>
-          <Pagination.First
-            onClick={() => handlePageChange(1)}
-            disabled={currentPage === 1}
-          />
-          <Pagination.Prev
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          />
-
-          {[...Array(totalPages)].map((_, index) => {
-            const pageNumber = index + 1;
-            if (
-              pageNumber === 1 ||
-              pageNumber === totalPages ||
-              (pageNumber >= currentPage - 2 && pageNumber <= currentPage + 2)
-            ) {
-              return (
-                <Pagination.Item
-                  key={pageNumber}
-                  active={pageNumber === currentPage}
-                  onClick={() => handlePageChange(pageNumber)}
-                >
-                  {pageNumber}
-                </Pagination.Item>
-              );
-            }
-            if (
-              pageNumber === currentPage - 3 ||
-              pageNumber === currentPage + 3
-            ) {
-              return <Pagination.Ellipsis key={pageNumber} />;
-            }
-            return null;
-          })}
-
-          <Pagination.Next
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          />
-          <Pagination.Last
-            onClick={() => handlePageChange(totalPages)}
-            disabled={currentPage === totalPages}
-          />
-        </Pagination>
-      </div>
-
-      <div className="text-center mt-2">
-        <small className="text-muted">
-          Showing {indexOfFirstImage + 1} to{" "}
-          {Math.min(indexOfLastImage, sortedImages.length)} of{" "}
-          {sortedImages.length} images
-        </small>
-      </div>
     </Container>
   );
 };
