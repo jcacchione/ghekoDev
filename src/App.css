@@ -850,7 +850,6 @@ a.sidebar-title:focus {
 }
 
 .sidebar-header-options {
-  float: right;
   display: inline-block;
 }
 
@@ -2189,7 +2188,7 @@ input[type="text"].form-control,
 input[type="password"].form-control,
 input[type="email"].form-control,
 textarea.form-control {
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 .form-control {

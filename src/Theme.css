@@ -1738,22 +1738,6 @@ li.push-bit {
   font-size: 0.8rem;
 }
 
-.schedulerToolbar button {
-  opacity: 0.9;
-}
-
-.schedulerToolbar button:hover {
-  border: 1px solid #ddd;
-}
-
-.schedulerHead {
-  /*  */
-}
-
-.schedulerHeadValue {
-  font-size: 0.8rem;
-}
-
 div#sidebar.collapsed,
 div#sidebar.collapsed ul.sidebar-nav,
 div#sidebar.collapsed .sidebar-content,
